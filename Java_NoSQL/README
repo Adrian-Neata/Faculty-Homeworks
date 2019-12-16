@@ -1,0 +1,41 @@
+Neata Adrian 321CB
+
+	Pentru realizarea temei m-am folosit de 5 clase.
+	In clasa Tema2 nu am decat functia static void main care imi citeste din fisierul de input si care imi scrie in fisierul de output rezultatele comenzilor.
+	Clasa Attribute este o clasa abstracta care este mostenita de alte 3 clase (FloatAtttribute, StringAttribute, IntegerAttribute). Din moment ce atributele unei entitati putea fi de 3 feluri am facut 3 clase care difera doar prin tipul valorii value. Metodele implementate sunt:
+- getValue -> returneaza valoare atributului;
+- setValue -> seteaza valoare atributului;
+- toString -> returneaza un string cu numele si valoare atributului;
+- Attribute -> constructorul clasei abstracte in care se seteaza numele;
+- getName -> returneaza numele atributului;
+	Clasa Entity contine numele, factorul de replicare, o lista de atribute si timpul in nanosecunde de la ultima actualizare. Functiile implementate sunt:
+- Entity -> constructorul care imi seteaza toate aceste valori;
+- addAttribute -> adauga un atribut nou in entitate;
+- getNrAttributes -> returneaza numarul de atribute din lista;
+- setAttribute -> seteaza valoare atributului aflat pe o anumita pozitie din lista;
+- getAttribute -> returneaza atributul gasit pe o anumita pozitie din lista;
+- getAttributeType -> returneaza un String ("Float", "Integer", "String") ce reprezinta tipul valorii retinute in atributul aflat pe pozitia index din lista;
+- checkKey -> compara parametrul metodei cu valoarea primului atribut din entitate (care este si cheie primara);
+- update -> actualizeaza o partea, sau toate atributele din lista entitatii;
+- compare -> compara doua entitati dupa timpul in nanosecunde de la ultima actualizare (utila pentru sortarea elementelor);
+- updateTimestamp -> actualizeaza timpul cu cel curent;
+- toString -> returneaza un string continand numele si toate atributele cu valorile lor din entitate;
+	Clasa Node contine o lista de entitati si metodele:
+- Node -> constructorul care imi creaza o noua lista;
+- getNrEntities -> returneaza numarul de entitati din lista;
+- addEntity -> adauga o entitate noua in nod;
+- getEntity -> returneaza entitatea gasita pe o anumita pozitie din lista;
+- removeEntity -> sterge entitatea gasita pe o anumita pozitie din lista;
+- searchEntity -> cauta o anumita entitate dupa nume si cheie primara si returneaza pozitia sa in lista sau -1 daca nu a fost gasita;
+- toString returneaza un string care contine detaliile tuturor entitatilor din nod;
+	Am definit o clasa Database care implementeaza toate comenzile date de input si inca cateva pe deasupra. Am doua ArrayList-uri; una care imi retine nodurile bazei de date si alta care imi retine entitatile care se definesc in baza de data (m-am folosit de aceasta lista la greu deoarece contine pattern-urile entitatilor din baza de date). Mare parte din functii se folosesc de un vector de string-uri (tokens) dat ca parametru care reprezinta comanda data. Metodele implementate sunt:
+- Database -> constructorul bazei de date imi initializeaza cele doua liste;
+- initialize -> deoarece in switch-ul din main nu pot declara o noua baza de date pe care sa o folosesc tot in acelasi switch, am declarat-o inainte si am creat functia initialize care sa-mi seteze numarul de noduri, capacitatea maxima si numele bazei de date;
+- createEntity -> creeaza o noua entitate pe care o introduce in lista de entitati;
+- insert -> insereaza in baza de date entitatea data ca parametru (prin vectorul de string-uri tokens);
+- delete -> cauta o anumita entitate in baza de date si o sterge daca este gasita;
+- update -> cauta o anumita entitate in baza de date si ii actualizeaza atributele;
+- whichEntity -> returneaza entitatea cu acelasi nume din lista de entitati (utila daca vrem sa aflam tipul unei chei primare cand nu avem altceva decat numele entitatii);
+- get -> cauta o anumita entitate in baza de date si returneaza un string cu detaliile acelei entitati daca a fost gasita sau mesajul "NO INSTANCE FOUND";
+- SnapshotDB -> returneaza un string cu toate nodurile si entitatile din ele;
+- cleanup -> sterge toate entitatile mai vechi de un anumit timestamp din toate nodurile, iar daca un nod nu mai are entitati, acela va fi sters;
