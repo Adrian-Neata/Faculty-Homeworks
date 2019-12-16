@@ -1,0 +1,64 @@
+Neata Adrian 321CB
+
+	Pentru realizarea temei mi-am creat doua clase, File si Directory care mosteneau clasa Document (am cautat pe net informatii despre design pattern-ul Composite si din cate am vazut elementele ar fi trebuit sa implementeze o interfata comuna sau sa mosteneasca o clasa abstracta comuna, dar eu am ales o clasa simpla deoarece mi s-a parut mai eficient din moment ce nu exista o diferenta mare intre File si Directory). Ambele clase au ca atribute un nume si referinta directorului in care se afla. Clasa Directory mai contine si un ArrayList<Document> cu documente care se afla in director.
+
+
+	Directory:
+-getDocumentIndex(String name) returneaza index-ul corespunzator documentului cu acelasi nume din lista sau -1 daca nu este gasit;
+-copy() returneaza o copie recursiva a directorului;
+-showTree() returneaza un string care contine arborele documentelor care se afla in director;
+-toString() returneaza un string care contine calea absoluta a directorului si documentele care se afla in el;
+-showTree(String regex) returneaza un string similar cu showTree(), dar care contine doar documentele al caror nume face match la regex;
+-toString(String regex) returneaza un string similar cu toString(), dar care contine doar documentele al caror nume face match la regex;
+
+
+	File:
+-copy() returneaza o copie a fisierului;
+
+
+	Document:
+->contine doua atribute statice reprezentand directorul curent si directorul radacina care stau la baza sistemului de documente;
+-compareTo(Document doc) compara lexicografic numele documentului curent cu cel al parametrului; este folosit in ordonarea dupa nume a listelor de documente;
+-getAbsolutePath() returneaza un string corespunzator caii absolute a documentului curent parcurgand arborele de la frunza la radacina;
+-removeDoc() elimina documentul curent din lista de documente al directorului care il contine; returneaza true daca eliminarea a avut loc sau false altfel;
+-findMatches(String name, ArrayList<Document> list) primeste o lista de documente "curente" si returneaza o lista de documente al caror nume se potriveste cu name si care se aflau intr-unul din documentele initiale (daca erau instante de Directory); au fost identificate 7 cazuri posibile pentru name: 
+	->daca nu contine nimic sau daca este "." atunci returneaza aceeasi lista
+	->daca este ".." atunci returneaza o lista de directoarea care contineau documentele curente
+	->daca incepe cu "*" atunci verifica fiecare document curent daca este o instanta de Directory si apoi returneaza o lista de documente al caror nume se termina cu restul caracterelor din name
+	->daca se termina cu "*" atunci verifica fiecare document curent daca este o instanta de Directory si apoi returneaza o lista de documente al caror nume incepe cu restul caracterelor din name
+	->daca contine "*" si nu e nici unul din cazurile antecedente atunci verifica fiecare document curent daca este o instanta de Directory si apoi returneaza o lista de documente al caror nume incepe cu restul caracterelor din stanga lui "*" si se termina cu restul caracterlor din dreapta lui;
+	->daca nu e nici unul din cazurile antecedente atunci verifica fiecare document curent daca este o instanta de Directory si apoi returneaza o lista de documente al caror nume este identic cu name;
+-findDocuments(String path) returneaza o lista de documente al caror cale absoluta se potriveste cu path;
+
+
+	CommandFactory (implementeaza design pattern-urille Singleton si Factory):
+-getInstance() returneaza singura instanta creata a clasei;
+-createCommand(String line, BufferedWriter output, BufferedWriter errors) returneaza o noua instanta a unei clase ce implementeaza ICommand si care respecta cerintele din line (linia de comanda); pentru verificarea argumentelor comenzii Ls am verificat fiecare posibilitate (-R, grep, cale sau fara) in parte stergand dupa aceea, daca era cazul, acea parte din line;
+
+
+	Ls:
+->apeleaza functia findDocuments si verifica daca lista returnata e goala sau daca primul element din lista e o instanta de Directory (am presupus ca din moment ce "*" nu este folosit pentru ls atunci lista nu poate decat sa contina maxim un element). Dupa aceea daca grep a fost instantiat atunci se apeleaza functia si se opreste restul executiei, altfel se apeleaza una din functiile toString() sau showTree();
+
+	Pwd:
+->apeleaza functia findDocuments si verifica daca lista returnata e goala sau daca primul element din lista e o instanta de Directory si apoi afiseaza daca este cazul calea absoluta a directorului;
+
+	Cd:
+->apeleaza functia findDocuments si verifica daca lista returnata e goala sau daca primul element din lista e o instanta de Directory si apoi modifica daca este cazul directorul curent cu cel gasit;
+
+	Cp:
+->se asigura ca exista un document la calea precizata si apoi ca exista un director in care sa fie copiat si apoi in functie de instanta documentului acesta este copiat si pus in lista de documente a directorului in cauza;
+
+	Mv:
+->se asigura ca exista un document la calea precizata si apoi ca exista un director in care sa fie mutat si apoi este eliminat din lista de documente a directorului in care se afla si pus in lista directorului in cauza;
+
+	Rm:
+->parcurge lista de documente care au fost gasite si le elimina pe rand pe fiecare; pentru cazul in care in arborele documentului care trebuie sters se afla directorul curent am verificat daca calea absoluta a directorului curent incepe cu calea absoluta a documentului;
+
+	Touch:
+->parcurge lista de documente care au fost gasite si verifica daca vreunul din ele este o instanta de Directory, caz in care un nou fisier este creat;
+
+	Mkdir:
+->parcurge lista de documente care au fost gasite si verifica daca vreunul din ele este o instanta de Directory, caz in care un nou director este creat;
+
+	Grep:
+->face aproape acelasi lucru ca si Ls doar ca apeleaza functiile showTree(String regex) si toString(String regex) in loc;
