@@ -1,0 +1,18 @@
+Neata Adrian 321CB
+
+	Algoritmul folosit pentru rezolvarea temei este unul destul de simplu: incep din nodul radacina si imi creez o lista de perechi (nod, distanta de la nod la radacina) cu toate nodurile nevizitate la care pot ajunge si o selectez pe cea cu distanta cea mai mica. Daca sunt mai multe cu aceeasi distanta atunci ma uit la prioritatea nodului care formeaza o muchie cu cel din pereche si il aleg pe cel cu prioritatea cea mai mica. Cand ajung sa nu mai pot crea o lista nevida de perechi atunci am vizitat toate nodurile.
+	In implementarea mea am mai multe functii:
+getEdges: returneaza lista de muchii din retea;
+getNodes: returneaza lista de noduri din retea;
+getRoot: parcurge lista de noduri si returneaza nodul cu prioritatea cea mai mica;
+getPriority: parcurge lista de noduri pana ajunge la nodul cautat si returneaza prioritatea lui;
+nodeIsVisited: verifica daca nodul introdus ca parametru se regaseste in lista de perechi (nod, distanta de la nod la radacina);
+getCloseEdges: returneaza o lista de muchii catre noduri nevizitate care pornesc din nodul introdus ca parametru;
+getAdjacentEdges: returneaza o lista formata din toate muchiile care pornesc din nodurile deja vizitate din arbore si ajung in noduri nevizitate;
+findShortestDist: returneaza muchia a carei distanta de la nodul radacina la capatul muchiei sa fie minima; daca sunt mai multe cu aceeasi distanta, va tine cont de prioritate;
+findSpanningTreeAux: la fiecare iteratie cauta toate muchiile care duc catre noduri nevizitate si o adauga pe cea cu distanta cea mai mica in lista; se opreste cand nu mai sunt noduri nevizitate;
+member: verifica daca o muchie introdusa ca parametru se afla in lista de muchii;
+nodeInPath: verifica daca un nod se regaseste intr-o lista de noduri;
+stp: apeleaza findSpanningTreeAux si returneaza radacina si arborele gasit;
+findPath: prin apeluri recursive si cu ajutorul proprietatilor acestui limbaj, parcurge toate drumurile de la nodul sursa pana cand ajunge la nodul destinatie, moment in care se opreste de tot;
+drum: apeleaza stp si findPath si returneaza radacina, arborele gasit si drumul de la nodul sursa la destinatie;
