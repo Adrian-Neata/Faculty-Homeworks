@@ -1,0 +1,39 @@
+	Logica folosirii stivei este urmatoarea: citesc din string caractere si 
+le interpretez; daca am un numar atunci il citesc caracter cu caracter si il pun 
+in stiva, daca am o operatie atunci scot din stiva ultimele 2 elemente introduse 
+si fac operatia intre cele doua, iar apoi pun rezultatul inapoi in stiva.
+	Pentru realizarea temei am facut un label evaluate care imi citeste 
+fiecare caracter din string-ul introdus ca input si in functie de caracter sare 
+la un anumit label.
+
+subtraction: verific sa vad daca caracterul imediat dupa minus este o cifra caz 
+	in care nu am de-a face cu o diferenta ci de un numar negativ si sare la 
+	negativeNumber; daca nu este atunci scot doua elemente din stiva si le 
+	scad, punand rezultatul in stiva.
+addition: scot doua elemente din stiva si le adun, punand rezultatul in stiva.
+multiplication: scot doua elemente din stiva si le inmultesc, punand rezultatul 
+	in stiva.
+division: scot doua elemente din stiva, apelez functia cdq (care extinde semnul 
+	lui eax in edx) pentru ca impartirea sa se produca corect, apoi le 
+	impart si pun rezultatul in stiva.
+negativeNumber: imi face ecx = 1 pentru a sti mai tarziu cand citesc numarul din 
+	string ca el este negativ si trebuie inmultit cu -1.
+readNumber: imi citeste prima cifra din string si o pune in eax, daca si 
+	urmatorul caracter este tot o cifra atunci se va face jump la 
+	continueReading, daca nu, se va verifica daca ecx este 1 caz in care se 
+	duce la minusSign sau daca ecx diferit de 1 introduce numarul in stiva.
+continueReading: inmulteste eax cu 10, iar apoi aduna la el cifra citita din 
+	string din ebx si continua sa faca asta pana ce am citit toate cifrele, 
+	apoi verifica daca ecx este 1 caz in care se duce la minusSign sau daca 
+	ecx diferit de 1 introduce numarul in stiva.
+minusSign: inmulteste numarul retinut in eax cu -1 si apoi il pune in stiva.
+
+
+Observatii: 
+	pentru ca programul sa ruleze corect valorile lui eax si ebx inainte de 
+momentul citirii unui numar trebuie sa fie 0 astfel am adaugat in evaluate doua 
+xor-uri pentru ele
+	din moment ce citim caractere dintr-un string pentru a verifica daca ele 
+sunt cifre scadem 48 din ele si verificam daca rezultatul este pozitiv (toate 
+semnele operatiilor aritmetice au codul ASCII mai mic de 48, iar de la 48 incep 
+valorile ASCII pentru cifre)
