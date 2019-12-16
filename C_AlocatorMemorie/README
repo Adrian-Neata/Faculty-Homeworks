@@ -1,0 +1,19 @@
+//Neata Adrian 
+//311CB
+
+/*      Pentru inceput am creat doua functii care sa ma ajute sa implementez cerintele problemelor: dectohex care imi converteste pozitiile si dimensiunile blocurilor din uint32_t in 4 octeti diferiti si 
+hextodec care imi converteste datele din patru octeti diferiti intr-un int de 4 octeti. Cu aceste functii se lucreaza in sectiunea de gestiune.
+	Am luat mai multe variabile globale: memory (spatiul de memorie cu care lucrez), memory_size (dimensiunea spatiului de memorie), first (pozitia primul bloc), last (pozitia ultimului bloc) si 
+nr_blocks numarul total de blocuri alocate.
+	Pentru INITIALIZE este alocat spatiul de memorie si toti octetii sunt setati la 0. Daca nu s-a putut face alocarea programul se va termina.
+	In functia DUMP am luat un for care parcurgea spatiul de memorie si cu ajutorul mai multor if-uri am afisat continutul conform cerintelor temei. 
+	Am impartit functia ALLOC in trei cazuri: blocul care trebuie sa fie alocat incape la inceputul spatiului de memorie sau este primul bloc alocat dupa INITIALIZE, blocul incape intre alte 2 
+blocuri si blocul incape la finalul spatiului de memorie. Aceste trei cazuri se verifica in aceasta ordine si in cazul in care nici unul nu este valid se afiseaza 0.
+	Pentru FILL incepand de la blocul corespunzator index-ului s-au schimbat valorile din datele utilizatorului in valoare data ca parametru, iar pentre fiecare schimbare s-a scazut o unitate din size.
+Daca un bloc a fost umplut si size-ul nu este 0 atunci se trece la urmatorul. Intreg procesul continua pana cand nu mai sunt blocuri sau pana cand size-ul este egal cu 0.
+	FINALIZE elibereaza zona de memorie si seteaza nr_blocks, last si first la 0.
+	In REALLOC am copiat toate valorile din datele utilizatorului intr-un vector, am eliberat zona de memorie corespunzatoare indexului si am alocat-o cu noul size. Valorile din vector au fost 
+copiate la loc in blocul nou creat.
+	Functia ALLOCALIGNED seamana foarte mult cu ALLOC doar ca de fiecare data inainte sa se testeze daca se poate aloca spatiu se gaseste o pozitie de inceput a datelor utilizatorului care e divizibila
+cu align si aceea e folosita in if-uri si in operatiile care urmeaza.
+*/
