@@ -1,0 +1,36 @@
+NEATA Adrian - 311CB
+
+	Pentru implementarea cerintelor temei am impartit codul in 3 fisiere:
+-main.c unde se deschid fisierele date ca argumente si se apeleaza functiile necesare;
+-info.h unde ese definitia structurii pentru arbore. Deoarece trebuie lucrat cu variabile am mai creat si o structura TVar care retine numele unei variabile si valoare ei;
+-functions.c unde sunt implementate functiile cerute in tema impreuna cu functia de parsare si cateva auxiliare;
+
+
+	Functii in functions.c:
+-ConstrFr -> aloca un element de tip TArb, unde i se si introduce informatia;
+-ConstrArb -> construieste recursiv arborele parcurgand vectorul de elemente;
+           -> daca elementul curent nu este un operator atunci returneaza void altfel in functie de ce operator e, construieste frunza stanga si/sau frunza dreapta cu informatiile urmatoare;
+-DelArb -> parcurge recursiv arborele si elibereaza zonele de memorie alocate;
+-citireVar -> citeste variabilele declarate in fisierul de input si introduce in vectorul de variabile numele si valoare fiecarei variabile;
+-Parsare -> separa fiecare element dintr-o ecuatie si il introduce intr-un vector de string-uri pentru a fi utilizate ca informatie pentru nodurile arborelui;
+         -> returneaza vectorul de elemente si numarul de elemente din vector prin efect lateral;
+-comp -> returneaza o valoare intre 1 si 6 in functie de ce operator este string-ul dat ca parametru sau 0 daca nu este un operator;
+-search -> cauta in vectorul de variabile string-ul primit ca parametru, daca nu-l gaseste atunci verifica daca string-ul este un numar;
+        -> daca nu este un numar atunci returneaza prin efect lateral un cod de eroare si printeaza in fisier mesajul de eroare, altfel returneaza numarul convertit din string;
+-RSD -> calculeaza rezultatul unei ecuatii parcurgand recursiv arborele;
+     -> daca pointer-ul error primit ca parametru are valoare diferita de 0 atunci returneaza 2 (a aparut o eroare in program);
+     -> daca elementul curent este o frunza atunci apeleaza functia search pentru a returna valoare gasita;
+     -> in functie de ce operator se afla in nod se calculeaza ecuatia corespunzatoare apeland functia RSD pentru nodul din stanga si/sau nodul din dreapta;
+
+	In main.c:
+-> se aloca vectorul de variabile si apoi se apeleaza functia citireVar pentru a pune valorile in vector;
+-> citeste toate liniile cu operatii, apeland functia parsare pentru a obtine vectorul de elemente;
+-> foloseste functia ConstrArb pentru a construi arborele;
+-> apeleaza functia RSD si in functie de valoarea codului de eroare afiseaza un mesaj in fisierul de output;
+-> elibereaza arborele cu DelArb si elibereaza vectorul de elemente;
+-> elibereaza la final vectorul de variabile si ceilalti pointeri alocati;
+
+
+
+
+	Am citit mesajul tau de pe vmchecker si am pus in fisierul .h doar header-ele (duh) si definitiile structurilor.
