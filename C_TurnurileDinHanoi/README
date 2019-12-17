@@ -1,0 +1,40 @@
+NEATA Adrian - 311CB
+
+	Pentru implementarea cerintelor temei am impartit codul in 4 fisiere:
+-main.c unde se deschid fisierele date ca argumente, se aloca un pointer la o TLista care va deveni inceputul sirului de sisteme si se citeste fiecare linie din fisierul de input;
+-info.h unde sunt definitiile structurilor pentru stiva, coada, disc, celula generica si sistem. In sistem se afla un char* catre culoare discurilor din sistem, 3 pointeri la stivele sistemului
+	o coada in care se afla mutarile care au fost facute si un int care retine numarul de mutari facute pana la acel moment (Nota in stive dim reprezinta numarul de element din stiva, nu dimensiunea
+	unui element);
+-functions.h unde sunt implementate functiile cerute in tema impreuna cu functia de parsare;
+-auxfunc.h unde sunt implementate functiile auxiliare pentru cozi, stive, eliberare, alocare s.a.m.d.;
+
+
+	Functii in auxfunc.h:
+InitS -> initializeaza a unei stive;
+InitQ -> initializeaza a unei cozi;
+Pop -> scoate un element din stiva;
+Push -> adauga un element din stiva;
+ExtrQ -> scoate un element din coada;
+IntrQ -> adauga un element din coada;
+delSt -> sterge o stiva;
+delQ -> sterge o coada;
+DelSist -> parcurge intreaga lista de sisteme si o elibereaza;
+IntrSist -> initializeaza un nou sistem Hanoi;
+GasesteSist -> parcurge lista de sisteme in cauteara celui de o anumita culoare, iar daca nu-l gaseste apeleaza functia IntrSist pentru a-l crea si apoi il returneaza;
+PrintStiva -> muta toate elementele dintr-o stiva intr-alta initializata, afisandu-le in acelasi timp si apoi muta elementele inapoi in stiva initiala;
+Muta -> muta un disc de pe o stiva pe alta dupa regulile Hanoi si apoi creaza o noua celula in care pune un char* reprezentand mutarea facuta si apoi il adauga in coada cu mutari (Nota parametrul which e 
+	folosit ca sa se stie care 2 stive sunt introduse ca parametri, iar reverse sensul de mutare); 
+Solve -> rezolva sistemul Hanoi pana la un anumit punct determinat de nrMutari folosindu-se de functia Muta;
+
+
+	Functii in functions.h:
+add -> aloca un element de tip Celulag si unul de tip TDisc apoi apeleaza functia GasesteSist;
+    -> creeaza o stiva auxiliara in care muta elementele din stiva A pana da de unul cu un diametru mai mare decat discul care se vrea introdus;
+    -> se introduce noul disc in stiva A si apoi se muta inapoi toate discurile;
+show -> apeleaza functia GasesteSist, iar apoi afiseaza cele 3 stive din sistem cu functia PrintStiva;
+play -> retine in totalMoves numarul de mutari totale necesare rezolvarii sistemului;
+     -> daca coada cu mutari e goala atunci rezolva sistemul cu ajutorul functie Solve si apoi pune la loc discurile in stiva A;
+     -> apeleaza functia Solve pentru a face un anumit numar de mutari;
+show_moves -> daca coada cu mutari e goala atunci rezolva sistemul cu ajutorul functie Solve si apoi pune la loc discurile in stiva A;
+           -> se foloseste de faptul ca toate mutarile necesare terminarii sistemului Hanoi se afla la inceputul cozii de mutari si parcurge coada folosindu-se de o coada auxiliara;
+           -> afiseaza mutarile care ar trebui facute si apoi, dupa ce termina de parcurs coada, pune la loc elementele din coada auxiliara; 
