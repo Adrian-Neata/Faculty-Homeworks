@@ -1,0 +1,49 @@
+NEATA Adrian - 311CB
+
+	Pentru implementarea cerintelor temei nu am modificat fisierul info.h.
+	Am impartit codul in 3 fisiere: 
+-main.c unde se deschid fisierele date ca argumente, se apeleaza functia de constructie a salii si se citeste fiecare linie din fisierul de evenimente;
+-liste.h unde sunt implementate functiile de constructie si eliberarea a listelor generice si a structurilor;
+-functions.h unde sunt implementate functiile cerute in tema impreuna cu unele auxiliare
+
+
+	Functii in liste.h:
+-EliberareJucatori -> parcurge o lista de jucatori eliberand-o, primeste ca parametru o ALista pentru a putea elibera si pointerul catre celula;
+-EliberareMese -> parcurge o lista de mese si o elibereaza folosind EliberareJucatori pentru lista de jucatori din masa, primeste ca parametru o ALista pentru a putea elibera si pointerul catre celula;
+-GenerareJucatori -> creeaza lista de jucatori in timp ce citeste din fisier datele lor, daca in orice moment nu mai este suficienta memorie de alocare, tot ce se alocase anterior este eliberat;
+                  -> returneaza o variabila de tip TLista care este inceputul listei (santinela in acest caz);
+-GenerareSala -> aloca sala si creeaza lista de mese in timp ce citeste datele lor, daca in orice moment nu mai este suficienta memorie de alocare, tot ce se alocase anterior este eliberat;
+              -> se foloseste de GenerareJucatori (pentru a crea lista de jucatori din mese) si EliberareJucatori (daca nu e suficienta memorie);
+              -> returneaza prin intermediul parametrului de tip Sala* sala generata;
+
+
+	Functii in functions.h:
+-GasesteMasa -> cauta in sala o masa cu numele numeMasa si returneaza prin intermediul parametrilor ant* si aux* celula mesii gasite si celula mesii anterioare;
+             -> celula mesii anterioare este necesara in cazul in care functia care apeleaza GasesteMasa urmeaza sa o stearga din lista;
+-StergeMasa -> sterge masa din celula aux si modifica sala->nrLocMax;
+-print -> parcurge lista de mese si apoi cea de jucatori de la fiecare masa si scrie in formatul cerut datele in fisierul de output;
+-TuraMasa -> scade cu 1 nrMaini ale fiecarui jucator si sterge jucatorii care au ajuns la 0;
+          -> schimba ordinea jucatorilor daca primul jucator nu a fost eliminat (caz in care schimbarea a avut loc cand s-a eliminat jucatorul);
+-tura -> se foloseste de GasesteMasa pentru a gasi masa ceruta si apoi apeleaza functia TuraMasa;
+      -> sterge masa daca a ramas fara jucatori cu StergeMasa;
+-ghinion_noroc -> din moment ce cerintele implementarii functiilor de ghinion si noroc sunt aproape aceleasi am folosit o singura functie care sa le faca pe amandoua;
+               -> se foloseste de GasesteMasa pentru a gasi masa ceruta si apoi cauta jucatorul cerut de la masa;
+               -> scade sau creste nrMaini al jucatorului (in functie de ce comandata a fost introdusa) si apoi verifica daca jucatorul trebuie eliminat;
+               -> sterge masa daca ramane fara jucatori;
+-MutareJucatori -> muta jucatorii de la masa2 la masa1, cautand un "lant" de celule de jucatori din masa2 egal cu numarul de jucatori care mai pot veni la masa1;
+                -> muta lantul de la masa2 la masa1;
+-inchide -> se foloseste de GasesteMasa pentru a gasi masa ceruta si apoi verifica daca sunt suficiente locuri in sala;
+         -> parcurge de la inceput lista de mese apeland functia MutareJucatori pana nu mai sunt jucatori la masa respectiva si apoi sterge masa respectiva;
+-tura_completa -> parcurge lista de mese si apeleaza functia tura pentru a scade nrMaini;
+               -> tura este apelata de celula anterioara celei curente pentru cazul in care tura sterge masa (ramane fara jucatori de la apelarea functiei TuraMasa);
+-OrdonareMasa -> citeste lista de jucatori data ca parametru si creeaza o noua lista de celule ordonata dupa nrMaini;
+              -> daca in orice moment nu mai este suficienta memorie de alocare, tot ce se alocase anterior este eliberat;
+              -> daca lista nou creata e goala atunci primul jucator citit va fi pus la inceput;
+              -> daca jucatorul citit are nrMaini mai mare decat primul din lista nou creata atunci el va deveni primul;
+              -> daca nrMaini al jucatorului citit este egal cu nrMaini al primului jucator, dar numele jucatorului citit este lexicografic mai mare atunci el va deveni primul;
+              -> altfel se parcurge lista pana se ajunge la un jucator cu nrMaini mai mic sau egal cu a jucatorului citit;
+              -> se parcurga lista cat timp nrMaini este egal pana se ajunge la un jucator cu un nume lexicografic mai mic;
+              -> se introduce jucatorul citit in pozitia gasita;
+-clasament -> se foloseste de GasesteMasa pentru a gasi masa ceruta si apoi apeleaza functia OrdonareMasa;
+           -> parcurge lista creata afisand jucatorii din ea si apoi eliberand celulele alocate de OrdonareMasa;
+-parsare -> apeleaza functia ceruta si in cazul in care ceva nu merge bine afiseaza un mesaj de eroare;
